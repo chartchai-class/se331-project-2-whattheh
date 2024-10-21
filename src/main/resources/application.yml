@@ -1,1 +1,27 @@
-spring.application.name=olympics-backend
+spring:
+  application:
+    name: olympics-backend
+  profiles:
+    active:
+      - db
+  datasource:
+    url: jdbc:mysql://localhost:3306/olympicDb?createDatabaseIfNotExist=true&autoReconnect=true&characterEncoding=UTF-8&allowMultiQueries=true&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: password
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: create
+  servlet:
+    multipart:
+      max-file-size: 10MB
+application:
+  security:
+    jwt:
+      secret-key: 6f40e302b00e42d201d0f135c6fb8ea331b8d7ba51fff0147122781419902662f56e8fdfedd1cdbe1cc007636c7e7ddcf7eba3acb3888e0b60453733f09aa7d725acfd7938e3d6c697f460e2938bff5621584777ee103837a4628a11fe24429a96f745a00ae54ec72297af274aa5fa7dd89ff28ffc2e0f2635d1f25e6842b18d268c26a674df2134075439f41be3000d137dcf846c2f7384b9b856bea26e63214c0f2cc6af646fdcbd23d05036f98e1344bf8df883f9cdeb751093fac75510b78a246c16a75de5a47578a75b59151027e0caab18b4ec35bde68bd9948b216de06e402a8e6394aacf115d30adbf82f42a5d384ee7f8c47e06bdbf1493f625b62dec7b98e0b5ee44ae8199a7d53f6b3d157db7099313e15fd74a1c090ba5e34e9eb6b971e7ffcd8417cabdb481d8c864276604547fe1aaf40ba6f2f70f97cb678fdd836ee20db3cb28b4bb58b0ebc1e1969047ab1ccf6e7f513b32aafed97e0a54b0f4646e020c8ffbe341b4a97a812d8d9e2aa9e2f9baf6239cd1513bf1737bb4b6265511399c082c36f9e09e7ac02223551b7d8f527f91189eeceb810f50ecdccdd10d52889e48ddceb11fe227f14a6056c1e04f6a4e5e199643d9fdf17601b9be69f34559856307407b71b2e98cbbace2efef45bb7c8416a33963aed1784d0e82d9113e22b5a368b60eb09bec51cc55f74b05f1c4a72068f4df8a78c4523df2
+      expiration: 86400000 # 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
