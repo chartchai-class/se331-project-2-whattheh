@@ -20,4 +20,8 @@ public class Country {
     @OneToMany(mappedBy = "country")
     @Builder.Default
     List<Sport> sports = new ArrayList<>();
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+    @Builder.Default
+    List<Medal> medals = new ArrayList<>();
 }

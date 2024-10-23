@@ -7,5 +7,8 @@ import java.util.List;
 public interface MedalService {
     void fetchAndStoreMedals(); // Fetch mock API data and store it into the database
     List<Medal> getAllMedals();
+   // Medal saveMedal(Medal medal);
+   List<Medal> saveMedals(List<Medal> medals);
+
 
 }
