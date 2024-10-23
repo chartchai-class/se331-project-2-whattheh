@@ -84,6 +84,16 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
 
                 System.out.println("API Response: " + response.getBody());
 
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode rootNode = objectMapper.readTree(response.getBody());
+
+                JsonNode dataArray = rootNode.get("data");
+                List<MedalDTO> medalDTOs = Arrays.asList(
+                        objectMapper.treeToValue(dataArray, MedalDTO[].class)
+                );
+
+                System.out.println("Parsed Medals: " + medalDTOs);
+
             } catch (Exception e) {
                 System.err.println("Error fetching medals from API: " + e.getMessage());
                 e.printStackTrace();
