@@ -14,6 +14,7 @@ public class MedalServiceImpl implements MedalService {
       RestTemplate restTemplate;
     @Override
     public void fetchAndStoreMedals() {
+
         String apiUrl = "https://cfaef2cc-2a38-4135-b81b-a179cf52e24d.mock.pstmn.io/demo";
         Medal[] medals = restTemplate.getForObject(apiUrl, Medal[].class);
         System.out.println("Length:"+ medals.length+ "and Medals:"+ Arrays.toString(medals));
@@ -25,4 +26,9 @@ public class MedalServiceImpl implements MedalService {
     @Override
     public List<Medal> getAllMedals() {
         return medalRepository.findAll();    }
+
+    @Override
+    public List<Medal> saveMedals(List<Medal> medals) {
+        return medalRepository.saveAll(medals);
+    }
 }

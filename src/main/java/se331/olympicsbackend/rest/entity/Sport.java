@@ -3,6 +3,9 @@ package se331.olympicsbackend.rest.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Builder
 @Entity
@@ -17,4 +20,7 @@ public class Sport {
 
     @ManyToOne
     Country country;
+
+    @OneToMany(mappedBy = "sport", cascade = CascadeType.ALL)
+    private List<Medal> medals = new ArrayList<>();
 }

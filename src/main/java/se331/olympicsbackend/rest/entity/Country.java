@@ -15,9 +15,13 @@ public class Country {
     long id;
     String flag;
     String countryName;
-    String description;
+
 
     @OneToMany(mappedBy = "country")
     @Builder.Default
     List<Sport> sports = new ArrayList<>();
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+    @Builder.Default
+    List<Medal> medals = new ArrayList<>();
 }
