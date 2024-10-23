@@ -15,7 +15,7 @@ public class Country {
     long id;
     String flag;
     String countryName;
-    String description;
+
 
     @OneToMany(mappedBy = "country")
     @Builder.Default
