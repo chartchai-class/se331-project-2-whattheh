@@ -94,6 +94,21 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
 
                 System.out.println("Parsed Medals: " + medalDTOs);
 
+                List<Medal> medals = medalDTOs.stream()
+                        .map(dto -> Medal.builder()
+                                .gold(dto.getGold())
+                                .silver(dto.getSilver())
+                                .bronze(dto.getBronze())
+                                .totalMedals(dto.getTotalMedals())
+                                .ranking(dto.getRanking())
+                                .totalRank(dto.getTotalRank())
+                                .build())
+                        .toList();
+
+                // Save the medals to the repository
+                medalRepository.saveAll(medals);
+                System.out.println("Medals fetched from API and saved successfully.");
+
             } catch (Exception e) {
                 System.err.println("Error fetching medals from API: " + e.getMessage());
                 e.printStackTrace();
