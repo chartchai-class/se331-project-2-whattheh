@@ -28,11 +28,10 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-  private String parentId;
-  @Column(unique = true)
   private String username;
+  @Column(unique = true)
   private String email;
   private String password;
   private Boolean enabled;
@@ -46,6 +45,7 @@ public class User implements UserDetails {
 
 
   @OneToMany(mappedBy = "user")
+  @Builder.Default
   private List<Token> tokens;
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

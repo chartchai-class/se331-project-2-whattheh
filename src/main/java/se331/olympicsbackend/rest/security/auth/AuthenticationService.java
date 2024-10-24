@@ -43,6 +43,7 @@ public class AuthenticationService {
             .build();
     System.out.println("USER: " + user);
     var savedUser = repository.save(user);
+    System.out.println("Saved user: " + savedUser);
     var jwtToken = jwtService.generateToken(user);
     System.out.println("Generate JWT token: " + jwtToken);
     var refreshToken = jwtService.generateRefreshToken(user);
