@@ -56,6 +56,7 @@ public class AuthenticationService {
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    System.out.println("Authenticating user: " + request);
     authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                     request.getUsername(),
@@ -64,9 +65,11 @@ public class AuthenticationService {
     );
     User user = repository.findByUsername(request.getUsername())
             .orElseThrow();
-
+    System.out.println("User found with username: " + user.getUsername());
     String jwtToken = jwtService.generateToken(user);
+    System.out.println("Tken generated from authenticate: " + jwtToken);
     String refreshToken = jwtService.generateRefreshToken(user);
+    System.out.println("Refresh token generated from authenticate: " + refreshToken);
 //    revokeAllUserTokens(user);
     saveUserToken(user, jwtToken);
     return AuthenticationResponse.builder()
