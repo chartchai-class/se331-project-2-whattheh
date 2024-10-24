@@ -109,6 +109,7 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                         .orElseGet(() -> Country.builder()
                                 .countryName(countryDTO.getCountryName())
                                 .flag(countryDTO.getFlag())
+                                .description(countryDTO.getCountryDescription())
                                 .build());
 
                 countryRepository.save(country);
