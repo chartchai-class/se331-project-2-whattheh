@@ -21,12 +21,7 @@ public class UserController {
             @RequestParam(value = "_limit",required = false,defaultValue = "10") Integer perPage,
             @RequestParam(value = "_page",required = false,defaultValue = "1") Integer page
     ){
-        perPage=perPage==null?10:perPage;
-        page=page==null?1:page;
-        Page<User> pageOutput;
-
-        pageOutput = userService.getUsers(perPage,page);
-
+        Page<User> pageOutput= userService.getUsers(perPage,page);
        HttpHeaders responseHeader=new HttpHeaders();
        responseHeader.set("x-total-count",String.valueOf(pageOutput.getTotalElements()));
        return new ResponseEntity<>
