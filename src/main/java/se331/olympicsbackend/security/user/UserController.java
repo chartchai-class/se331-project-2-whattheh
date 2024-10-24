@@ -18,7 +18,7 @@ public class UserController {
 
     @GetMapping("users")
     public ResponseEntity<?> getUsers(
-            @RequestParam(value = "_limit",required = false,defaultValue = "10") Integer perPage,
+            @RequestParam(value = "_limit",required = false,defaultValue = "3") Integer perPage,
             @RequestParam(value = "_page",required = false,defaultValue = "1") Integer page
     ){
         Page<User> pageOutput= userService.getUsers(perPage,page);
