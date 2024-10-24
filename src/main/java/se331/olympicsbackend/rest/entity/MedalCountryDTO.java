@@ -19,4 +19,7 @@ public class MedalCountryDTO {
     @JsonProperty("name")
     String countryName;
 
+    @JsonProperty("description")
+    String countryDescription;
+
 }
