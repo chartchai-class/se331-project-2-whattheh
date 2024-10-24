@@ -33,6 +33,7 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public AuthenticationResponse register(RegisterRequest request) {
+    System.out.println("Registering user in register function with request: " + request);
     User user = User.builder()
             .username(request.getUsername())
             .email(request.getEmail())
@@ -40,9 +41,10 @@ public class AuthenticationService {
             .enabled(true)
             .roles(List.of(Role.ROLE_USER))
             .build();
-
+    System.out.println("USER: " + user);
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
+    System.out.println("Generate JWT token: " + jwtToken);
     var refreshToken = jwtService.generateRefreshToken(user);
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
