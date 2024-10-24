@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import se331.olympicsbackend.util.LabMapper;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class UserController {
        HttpHeaders responseHeader=new HttpHeaders();
        responseHeader.set("x-total-count",String.valueOf(pageOutput.getTotalElements()));
        return new ResponseEntity<>
-               (pageOutput.getContent(),
+               (LabMapper.INSTANCE.getUserDTO(pageOutput.getContent()),
                responseHeader,
                HttpStatus.OK);
 

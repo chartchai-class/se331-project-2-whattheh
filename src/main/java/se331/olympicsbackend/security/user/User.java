@@ -30,6 +30,7 @@ public class User implements UserDetails {
   @GeneratedValue
   private Integer id;
   private String parentId;
+
   @Column(unique = true)
   private String username;
   private String email;
