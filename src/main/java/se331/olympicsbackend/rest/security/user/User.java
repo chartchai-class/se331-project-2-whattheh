@@ -1,5 +1,6 @@
 package se331.olympicsbackend.rest.security.user;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,9 +11,9 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-//import se331.lab_new.entity.Organizer;
-import se331.olympicsbackend.rest.entity.Comment;
+
 import se331.olympicsbackend.rest.security.token.Token;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,8 +31,8 @@ public class User implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-  private String username;
   @Column(unique = true)
+  private String username;
   private String email;
   private String password;
   private Boolean enabled;
@@ -42,10 +43,7 @@ public class User implements UserDetails {
   @LazyCollection(LazyCollectionOption.FALSE)
   private List<Role> roles = new ArrayList<>();
 
-
-
   @OneToMany(mappedBy = "user")
-  @Builder.Default
   private List<Token> tokens;
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -82,6 +80,5 @@ public class User implements UserDetails {
     return enabled;
   }
 
-//  @OneToOne(mappedBy = "user")
-//  Organizer organizer;
+
 }

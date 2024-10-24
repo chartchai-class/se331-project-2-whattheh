@@ -18,7 +18,7 @@ import se331.olympicsbackend.rest.security.token.TokenType;
 import se331.olympicsbackend.rest.security.user.Role;
 import se331.olympicsbackend.rest.security.user.User;
 import se331.olympicsbackend.rest.security.user.UserRepository;
-//import se331.olympicsbackend.util.LabMapper;
+
 
 import java.io.IOException;
 import java.util.List;
