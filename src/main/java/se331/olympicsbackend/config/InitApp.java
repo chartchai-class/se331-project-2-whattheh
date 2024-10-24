@@ -48,5 +48,11 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
         userRepository.save(user2);
     }
 
+    @Override
+    public boolean supportsAsyncExecution() {
+        return ApplicationListener.super.supportsAsyncExecution();
+    }
+
+
 
 }

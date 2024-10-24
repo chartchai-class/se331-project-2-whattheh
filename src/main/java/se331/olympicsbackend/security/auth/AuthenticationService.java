@@ -18,6 +18,7 @@ import se331.olympicsbackend.security.token.TokenType;
 import se331.olympicsbackend.security.user.Role;
 import se331.olympicsbackend.security.user.User;
 import se331.olympicsbackend.security.user.UserRepository;
+import se331.olympicsbackend.util.LabMapper;
 //import se331.olympicsbackend.util.LabMapper;
 
 import java.io.IOException;
@@ -46,9 +47,9 @@ public class AuthenticationService {
     var refreshToken = jwtService.generateRefreshToken(user);
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
-             .accessToken(jwtToken)
+            .accessToken(jwtToken)
             .refreshToken(refreshToken)
-//            .user(LabMapper.INSTANCE.getOrganizerAuthDTO(user.getOrganizer()))
+            .user(LabMapper.INSTANCE.getUserDTO(user))
             .build();
   }
 
@@ -59,6 +60,7 @@ public class AuthenticationService {
                     request.getPassword()
             )
     );
+
     User user = repository.findByUsername(request.getUsername())
             .orElseThrow();
 
@@ -69,7 +71,7 @@ public class AuthenticationService {
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
-//            .user(LabMapper.INSTANCE.getOrganizerAuthDTO(user.getOrganizer()))
+            .user(LabMapper.INSTANCE.getUserDTO(user))
             .build();
   }
 

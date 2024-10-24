@@ -79,6 +79,4 @@ public class User implements UserDetails {
     return enabled;
   }
 
-//  @OneToOne(mappedBy = "user")
-//  Organizer organizer;
 }
