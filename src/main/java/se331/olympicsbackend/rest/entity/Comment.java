@@ -16,9 +16,9 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
-    long  id;
-    String comment;
-    Timestamp timestamp;
+    private long  id;
+    private String comment;
+    private  Timestamp timestamp;
     //user
 
     //country

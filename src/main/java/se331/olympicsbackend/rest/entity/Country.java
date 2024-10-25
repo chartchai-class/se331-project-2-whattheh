@@ -12,17 +12,14 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
 
-    long id;
-    String flag;
-    String countryName;
-    String description;
+    private long id;
+    private String flag;
+    private String countryName;
+    private String description;
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Sport> sports = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "country")
-    @Builder.Default
-    List<Sport> sports = new ArrayList<>();
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
-    @Builder.Default
-    List<Medal> medals = new ArrayList<>();
 }
