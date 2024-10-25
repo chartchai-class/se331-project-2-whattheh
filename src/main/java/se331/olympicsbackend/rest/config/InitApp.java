@@ -16,10 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import se331.olympicsbackend.rest.entity.Country;
-import se331.olympicsbackend.rest.entity.Medal;
-import se331.olympicsbackend.rest.entity.MedalCountryDTO;
-import se331.olympicsbackend.rest.entity.MedalDTO;
+import se331.olympicsbackend.rest.entity.*;
 import se331.olympicsbackend.rest.repository.CountryRepository;
 import se331.olympicsbackend.rest.repository.MedalRepository;
 import se331.olympicsbackend.rest.repository.SportRepository;
@@ -80,8 +77,8 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
         userRepository.save(user2);
     }
 
-    private void addMedalsFromApi() {
 
+    private void addMedalsFromApi() {
         String apiUrl = "https://cfaef2cc-2a38-4135-b81b-a179cf52e24d.mock.pstmn.io/demo";
 
         try {
@@ -96,46 +93,74 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
 
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(response.getBody());
-
             JsonNode dataArray = rootNode.get("data");
-            // Parse medals and countries
+
+            // Parse all medals at once
             List<MedalDTO> medalDTOs = Arrays.asList(objectMapper.treeToValue(dataArray, MedalDTO[].class));
             System.out.println("Parsed Medals: " + medalDTOs);
-            List<MedalCountryDTO> medalCountryDTOs = Arrays.asList(objectMapper.treeToValue(dataArray, MedalCountryDTO[].class));
-            System.out.println("Parsed Country: " + medalCountryDTOs);
-            // Save countries and map them to their medals
-            medalCountryDTOs.forEach(countryDTO -> {
-                Country country = countryRepository.findByCountryName(countryDTO.getCountryName())
+
+            // Parse countries only once
+            for (JsonNode countryNode : dataArray) {
+                String countryName = countryNode.get("name").asText();
+                String flag = countryNode.get("flag_url").asText();
+
+                // Create or retrieve the country object
+                Country country = countryRepository.findByCountryName(countryName)
                         .orElseGet(() -> Country.builder()
-                                .countryName(countryDTO.getCountryName())
-                                .flag(countryDTO.getFlag())
+                                .countryName(countryName)
+                                .flag(flag)
                                 .build());
 
                 countryRepository.save(country);
-                List<Medal> medals = medalDTOs.stream()
-                        .map(dto -> Medal.builder()
-                                .gold(dto.getGold())
-                                .silver(dto.getSilver())
-                                .bronze(dto.getBronze())
-                                .totalMedals(dto.getTotalMedals())
-                                .ranking(dto.getRanking())
-                                .totalRank(dto.getTotalRank())
-                                .country(country)
-                                .build())
-                        .toList();
-
-                // Save the medals to the repository
-                medalRepository.saveAll(medals);
-            });
 
 
-            System.out.println("Medals fetched from API and saved successfully.");
 
+                // Parse and save sports specific to the country
+                JsonNode sportsArray = countryNode.get("sports");
+                List<SportDTO> sports = Arrays.asList(
+                        objectMapper.treeToValue(sportsArray, SportDTO[].class)
+                );
+
+                System.out.println("Parsed sports: " + sports);
+
+                sports.forEach(sportdto -> {
+                    Sport sport = Sport.builder()
+                            .sportName(sportdto.getSportName())
+                            .gold(sportdto.getGold())
+                            .silver(sportdto.getSilver())
+                            .bronze(sportdto.getBronze())
+                            .total(sportdto.getTotals())
+                            .country(country)
+                            .build();
+                    sportRepository.save(sport);
+                    // Parse and save medals specific to the country
+                    List<Medal> medals = medalDTOs.stream()
+                            .map(dto -> Medal.builder()
+                                    .gold(dto.getGold())
+                                    .silver(dto.getSilver())
+                                    .bronze(dto.getBronze())
+                                    .totalMedals(dto.getTotalMedals())
+                                    .ranking(dto.getRanking())
+                                    .totalRank(dto.getTotalRank())
+                                    .country(country)
+                                    .sport(sport)
+                                    .build())
+                            .toList();
+                    medalRepository.saveAll(medals);
+                });
+
+            }
+
+            System.out.println("Sports data fetched from API and saved successfully.");
+
+        } catch (JsonProcessingException e) {
+            System.err.println("Error processing JSON: " + e.getMessage());
+            e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("Error fetching medals from API: " + e.getMessage());
+            System.err.println("Error fetching sports data from API: " + e.getMessage());
             e.printStackTrace();
         }
-
-
     }
+
+
 }

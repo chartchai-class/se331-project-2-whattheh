@@ -15,11 +15,17 @@ public class Sport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
-    int id;
-    String sportName;
+    private  int id;
+    private String sportName;
+    private int gold;
+    private  int silver;
+    private int  bronze;
+    private int total;
+
 
     @ManyToOne
-    Country country;
+    @JoinColumn(name = "country_id")
+    private Country country;
 
     @OneToMany(mappedBy = "sport", cascade = CascadeType.ALL)
     private List<Medal> medals = new ArrayList<>();
