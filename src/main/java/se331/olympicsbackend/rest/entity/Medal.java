@@ -13,19 +13,19 @@ public class Medal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
-    long id ;
+    private long id ;
     @JsonProperty("gold_medals")
-    int gold;
+    private int gold;
     @JsonProperty("silver_medals")
-    int silver;
+    private  int silver;
     @JsonProperty("bronze_medals")
-    int bronze;
+    private int bronze;
     @JsonProperty("total_medals")
-    int totalMedals;
+    private int totalMedals;
     @JsonProperty("rank")
-    int ranking;
+    private int ranking;
     @JsonProperty("rank_total_medals")
-    int totalRank;
+    private int totalRank;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
