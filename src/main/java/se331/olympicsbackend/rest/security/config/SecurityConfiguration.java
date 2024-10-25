@@ -34,8 +34,10 @@ public class SecurityConfiguration {
 
               authorize.requestMatchers("/**")
                       .permitAll()
+
                       .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                       .requestMatchers(HttpMethod.GET,"/users/**").hasRole("ADMIN")
+
                       .anyRequest().authenticated();
             })
 

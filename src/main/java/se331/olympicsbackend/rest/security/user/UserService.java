@@ -1,6 +1,7 @@
 package se331.olympicsbackend.rest.security.user;
 
 import jakarta.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,5 +12,7 @@ public interface UserService {
     @Transactional
     User findByUsername(String username);
 
+
     Page<User> getUsers(Integer pageSize,Integer page);
+
 }

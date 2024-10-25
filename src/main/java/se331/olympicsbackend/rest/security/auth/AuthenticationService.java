@@ -1,6 +1,7 @@
 package se331.olympicsbackend.rest.security.auth;
 
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,7 +18,9 @@ import se331.olympicsbackend.rest.security.token.TokenType;
 import se331.olympicsbackend.rest.security.user.Role;
 import se331.olympicsbackend.rest.security.user.User;
 import se331.olympicsbackend.rest.security.user.UserRepository;
+
 import se331.olympicsbackend.rest.util.LabMapper;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -50,7 +53,9 @@ public class AuthenticationService {
     return AuthenticationResponse.builder()
              .accessToken(jwtToken)
             .refreshToken(refreshToken)
+
             .user(LabMapper.INSTANCE.getUserDTO(user))
+
             .build();
   }
 
@@ -74,7 +79,9 @@ public class AuthenticationService {
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
+
             .user(LabMapper.INSTANCE.getUserDTO(user))
+
             .build();
   }
 

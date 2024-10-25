@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import se331.olympicsbackend.rest.security.user.UserDTO;
 
 
@@ -19,5 +20,7 @@ public class AuthenticationResponse {
   private String accessToken;
   @JsonProperty("refresh_token")
   private String refreshToken;
+
   UserDTO user;
+
 }

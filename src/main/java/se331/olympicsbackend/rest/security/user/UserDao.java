@@ -1,5 +1,6 @@
 package se331.olympicsbackend.rest.security.user;
 
+
 import org.springframework.data.domain.Page;
 
 public interface UserDao {
@@ -7,4 +8,5 @@ public interface UserDao {
     Integer getUserSize();
     User save(User user);
     Page<User> getUsers(Integer pageSize, Integer page);
+
 }
