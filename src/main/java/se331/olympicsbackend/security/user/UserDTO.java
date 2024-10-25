@@ -22,6 +22,6 @@ public class UserDTO {
     String password;
     Boolean enabled;
     List<String> roles=new ArrayList<>();
-
+    String newRole;
 
 }
