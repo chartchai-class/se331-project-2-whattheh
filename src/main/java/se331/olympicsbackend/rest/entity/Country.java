@@ -15,6 +15,7 @@ public class Country {
     private long id;
     private String flag;
     private String countryName;
+    private String description;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sport> sports = new ArrayList<>();
