@@ -113,19 +113,7 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
 
                 countryRepository.save(country);
 
-                // Parse and save medals specific to the country
-                List<Medal> medals = medalDTOs.stream()
-                        .map(dto -> Medal.builder()
-                                .gold(dto.getGold())
-                                .silver(dto.getSilver())
-                                .bronze(dto.getBronze())
-                                .totalMedals(dto.getTotalMedals())
-                                .ranking(dto.getRanking())
-                                .totalRank(dto.getTotalRank())
-                                .country(country)
-                                .build())
-                        .toList();
-                medalRepository.saveAll(medals);
+
 
                 // Parse and save sports specific to the country
                 JsonNode sportsArray = countryNode.get("sports");
@@ -145,7 +133,22 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                             .country(country)
                             .build();
                     sportRepository.save(sport);
+                    // Parse and save medals specific to the country
+                    List<Medal> medals = medalDTOs.stream()
+                            .map(dto -> Medal.builder()
+                                    .gold(dto.getGold())
+                                    .silver(dto.getSilver())
+                                    .bronze(dto.getBronze())
+                                    .totalMedals(dto.getTotalMedals())
+                                    .ranking(dto.getRanking())
+                                    .totalRank(dto.getTotalRank())
+                                    .country(country)
+                                    .sport(sport)
+                                    .build())
+                            .toList();
+                    medalRepository.saveAll(medals);
                 });
+
             }
 
             System.out.println("Sports data fetched from API and saved successfully.");
