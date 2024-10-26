@@ -31,11 +31,11 @@ public class SecurityConfiguration {
     http
             .csrf((crsf) -> crsf.disable())
             .authorizeHttpRequests((authorize) -> {
-              authorize.requestMatchers("/**")
+              authorize.requestMatchers("/api/v1/auth/**")
                       .permitAll()
-                      .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                       .requestMatchers(HttpMethod.GET,"/users/**").hasRole("ADMIN")
                       .requestMatchers(HttpMethod.PUT,"/users/**").hasRole("ADMIN")
+                      .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                       .anyRequest().authenticated();
             })
 

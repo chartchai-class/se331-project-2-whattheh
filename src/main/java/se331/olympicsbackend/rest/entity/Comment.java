@@ -2,6 +2,7 @@ package se331.olympicsbackend.rest.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import se331.olympicsbackend.rest.security.user.User;
 
 
 import java.sql.Timestamp;
@@ -18,8 +19,10 @@ public class Comment {
     @EqualsAndHashCode.Exclude
     private long  id;
     private String comment;
-    private  Timestamp timestamp;
     //user
-
+    @ManyToOne
+    private User user;
     //country
+    @ManyToOne
+    private Country country;
 }
