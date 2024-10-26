@@ -89,7 +89,7 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
             ResponseEntity<String> response = restTemplate.exchange(
                     apiUrl, HttpMethod.GET, entity, String.class);
 
-            System.out.println("API Response: " + response.getBody());
+           // System.out.println("API Response: " + response.getBody());
 
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(response.getBody());
