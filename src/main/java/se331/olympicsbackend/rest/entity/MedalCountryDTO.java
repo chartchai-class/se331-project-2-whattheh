@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @Builder
@@ -18,5 +20,8 @@ public class MedalCountryDTO {
     String flag;
     @JsonProperty("name")
     String countryName;
+
+    @JsonProperty("description")
+    String countryDescription;
 
 }

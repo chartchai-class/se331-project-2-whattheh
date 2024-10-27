@@ -17,16 +17,22 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
     private long id;
-
     private String flag;
     private String countryName;
     private String description;
 
+//    @ElementCollection
+//    List<String> flag;
+
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sport> sports = new ArrayList<>();
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     @ToString.Exclude
     @JsonIgnore// Avoid circular reference in toString
     @OneToOne(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Medal medal;
+
 }

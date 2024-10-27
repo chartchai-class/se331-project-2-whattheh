@@ -2,7 +2,8 @@ package se331.olympicsbackend.rest.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+import se331.olympicsbackend.rest.security.user.User;
+
 
 @Entity
 @Data
@@ -10,22 +11,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class Comment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String originalText;   // Original comment by the user
-    private String translatedText; // Translated to standard English
-
-    private LocalDateTime createdAt;
-
+    @EqualsAndHashCode.Exclude
+    private long  id;
+    private String comment;
+    //user
     @ManyToOne
-    @JoinColumn(name = "country_id")
-    private Country country;  // Associate the comment with a country
+    private User user;
+    //country
+    @ManyToOne
+    private Country country;
 
-    @PrePersist
-    public void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
 }
