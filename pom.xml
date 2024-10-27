@@ -30,7 +30,6 @@
         <java.version>17</java.version>
         <org.mapstruct.version>1.6.0</org.mapstruct.version>
 
-
     </properties>
     <repositories>
         <repository>
@@ -100,20 +99,6 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>${org.mapstruct.version}</version>
             <scope> provided</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>${org.mapstruct.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <!--adding dependency for spring security-->

@@ -27,34 +27,36 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/**").permitAll()
-                        .requestMatchers("/home").permitAll()
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/countries/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/countries/**").permitAll()
-                        .requestMatchers("/uploadFile").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout(logout -> logout
-                        .logoutUrl("/api/v1/auth/logout")
-                        .addLogoutHandler(logoutHandler)
-                        .logoutSuccessHandler((request, response, authentication) ->
-                                SecurityContextHolder.clearContext()
-                        )
-                );
+    http.headers((headers) -> {
+      headers.frameOptions((frameOptions) -> frameOptions.disable());
+    });
+    http
+            .csrf((crsf) -> crsf.disable())
+            .authorizeHttpRequests((authorize) -> {
+
+              authorize.requestMatchers("/**")
+                      .permitAll()
+                      .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                      .requestMatchers(HttpMethod.GET,"/users/**").hasRole("ADMIN")
+                      .anyRequest().authenticated();
+            })
+
+            .sessionManagement((session) ->{
+              session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            })
+
+
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .logout((logout) -> {
+              logout.logoutUrl("/api/v1/auth/logout");
+              logout.addLogoutHandler(logoutHandler);
+              logout.logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
+            })
+    ;
 
         return http.build();
     }
