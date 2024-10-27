@@ -6,6 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import se331.olympicsbackend.rest.dao.CountryDao;
 import se331.olympicsbackend.rest.entity.Country;
+import se331.olympicsbackend.rest.entity.CountryDTO;
+
+import java.util.List;
 
 
 @Service
@@ -13,6 +16,7 @@ import se331.olympicsbackend.rest.entity.Country;
 public class CountryServiceImpl implements CountryService {
 
     final CountryDao countryDao;
+
 
     @Override
     public Integer getCountryCount() {
@@ -37,5 +41,10 @@ public class CountryServiceImpl implements CountryService {
     @Override
     public Country save(Country country) {
         return countryDao.save(country);
+    }
+
+    @Override
+    public List<Country> getAllCountries() {
+        return countryDao.getAllCountries();
     }
 }

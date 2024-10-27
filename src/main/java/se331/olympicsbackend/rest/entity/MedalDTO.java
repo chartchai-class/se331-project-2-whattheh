@@ -25,4 +25,9 @@ public class MedalDTO {
     Integer ranking;
     @JsonProperty("rank_total_medals")
     Integer totalRank;
+
+    @JsonProperty("name")
+    private String countryName;
+
+
 }

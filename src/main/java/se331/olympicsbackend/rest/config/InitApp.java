@@ -26,6 +26,7 @@ import se331.olympicsbackend.rest.security.user.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
@@ -77,7 +78,6 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
         userRepository.save(user2);
     }
 
-
     private void addMedalsFromApi() {
         String apiUrl = "https://cfaef2cc-2a38-4135-b81b-a179cf52e24d.mock.pstmn.io/demo";
 
@@ -89,22 +89,16 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
             ResponseEntity<String> response = restTemplate.exchange(
                     apiUrl, HttpMethod.GET, entity, String.class);
 
-           // System.out.println("API Response: " + response.getBody());
-
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(response.getBody());
             JsonNode dataArray = rootNode.get("data");
 
-            // Parse all medals at once
-            List<MedalDTO> medalDTOs = Arrays.asList(objectMapper.treeToValue(dataArray, MedalDTO[].class));
-            System.out.println("Parsed Medals: " + medalDTOs);
-
-            // Parse countries only once
+            // Iterate over each country node from API response
             for (JsonNode countryNode : dataArray) {
                 String countryName = countryNode.get("name").asText();
                 String flag = countryNode.get("flag_url").asText();
 
-                // Create or retrieve the country object
+                // Fetch or create a new Country entity
                 Country country = countryRepository.findByCountryName(countryName)
                         .orElseGet(() -> Country.builder()
                                 .countryName(countryName)
@@ -112,55 +106,64 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                                 .build());
 
                 countryRepository.save(country);
+                System.out.println("Parsed country: " + country);
 
-
-
-                // Parse and save sports specific to the country
-                JsonNode sportsArray = countryNode.get("sports");
-                List<SportDTO> sports = Arrays.asList(
-                        objectMapper.treeToValue(sportsArray, SportDTO[].class)
-                );
-
-                System.out.println("Parsed sports: " + sports);
-
-                sports.forEach(sportdto -> {
-                    Sport sport = Sport.builder()
-                            .sportName(sportdto.getSportName())
-                            .gold(sportdto.getGold())
-                            .silver(sportdto.getSilver())
-                            .bronze(sportdto.getBronze())
-                            .total(sportdto.getTotals())
+                // Save the Medal information for the country
+                if (country.getMedal() == null) {  // Ensure the medal isn't duplicated
+                    Medal medal = Medal.builder()
+                            .gold(countryNode.get("gold_medals").asInt())
+                            .silver(countryNode.get("silver_medals").asInt())
+                            .bronze(countryNode.get("bronze_medals").asInt())
+                            .totalMedals(countryNode.get("total_medals").asInt())
+                            .ranking(countryNode.get("rank").asInt())
+                            .totalRank(countryNode.get("rank_total_medals").asInt())
                             .country(country)
-                            .build();
-                    sportRepository.save(sport);
-                    // Parse and save medals specific to the country
-                    List<Medal> medals = medalDTOs.stream()
-                            .map(dto -> Medal.builder()
-                                    .gold(dto.getGold())
-                                    .silver(dto.getSilver())
-                                    .bronze(dto.getBronze())
-                                    .totalMedals(dto.getTotalMedals())
-                                    .ranking(dto.getRanking())
-                                    .totalRank(dto.getTotalRank())
-                                    .country(country)
-                                    .sport(sport)
-                                    .build())
-                            .toList();
-                    medalRepository.saveAll(medals);
-                });
 
+                            .build();
+
+                    medalRepository.save(medal);
+                    country.setMedal(medal);  // Link the medal to the country
+                    countryRepository.save(country);
+                    System.out.println("Inserted new medal: " + medal);
+                } else {
+                    System.out.println("Medal already exists for country: " + country.getCountryName());
+                }
+
+                // Iterate over each sport in the country node
+                JsonNode sportsArray = countryNode.get("sports");
+                for (JsonNode sportNode : sportsArray) {
+                    String sportName = sportNode.get("name").asText();
+
+                    // Check if the sport already exists for this country to prevent duplication
+                    Optional<Sport> existingSport = sportRepository.findBySportNameAndCountryId(sportName, country.getId());
+
+                    if (existingSport.isEmpty()) {
+                        Sport sport = Sport.builder()
+                                .sportName(sportName)
+                                .gold(sportNode.get("gold").asInt())
+                                .silver(sportNode.get("silver").asInt())
+                                .bronze(sportNode.get("bronze").asInt())
+                                .total(sportNode.get("total").asInt())
+                                .country(country)
+                                .build();
+
+                        sportRepository.save(sport);
+                        System.out.println("Inserted new sport: " + sport);
+                    } else {
+                        System.out.println("Sport already exists: " + existingSport.get().getSportName());
+                    }
+                }
             }
 
-            System.out.println("Sports data fetched from API and saved successfully.");
+            System.out.println("Data from API fetched and saved successfully.");
 
         } catch (JsonProcessingException e) {
             System.err.println("Error processing JSON: " + e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("Error fetching sports data from API: " + e.getMessage());
+            System.err.println("Error fetching data from API: " + e.getMessage());
             e.printStackTrace();
         }
     }
-
 
 }
