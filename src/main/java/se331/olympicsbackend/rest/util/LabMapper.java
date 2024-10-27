@@ -31,4 +31,5 @@ public interface LabMapper {
     @Mapping(source = "medal.totalRank", target = "totalRank")
 
     List<CountryDTO> getCountryDto(List<Country> countries);
+    CountryDTO getCountryDTO(Country country);
 }
