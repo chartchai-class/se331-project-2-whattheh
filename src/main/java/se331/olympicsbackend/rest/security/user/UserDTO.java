@@ -16,12 +16,11 @@ import java.util.List;
 
 public class UserDTO {
     Integer id;
-    String parentId;
     String username;
     String email;
     String password;
     Boolean enabled;
     List<String> roles=new ArrayList<>();
-    String newRole;
+
 
 }

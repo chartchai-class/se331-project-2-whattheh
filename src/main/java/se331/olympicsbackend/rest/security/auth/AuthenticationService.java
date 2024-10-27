@@ -18,7 +18,6 @@ import se331.olympicsbackend.rest.security.token.TokenType;
 import se331.olympicsbackend.rest.security.user.Role;
 import se331.olympicsbackend.rest.security.user.User;
 import se331.olympicsbackend.rest.security.user.UserRepository;
-import se331.olympicsbackend.rest.security.auth.AuthenticationResponse;
 
 import se331.olympicsbackend.rest.util.LabMapper;
 
@@ -35,7 +34,7 @@ public class AuthenticationService {
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
 
-  public AuthenticationResponse register(se331.olympicsbackend.rest.security.auth.RegisterRequest request) {
+  public AuthenticationResponse register(RegisterRequest request) {
     System.out.println("Registering user in register function with request: " + request);
     User user = User.builder()
             .username(request.getUsername())

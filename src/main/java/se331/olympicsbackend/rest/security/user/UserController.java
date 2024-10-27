@@ -6,11 +6,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se331.olympicsbackend.rest.util.LabMapper;
-import se331.olympicsbackend.rest.security.user.UserDTO;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,13 +30,5 @@ public class UserController {
 
     }
 
-    @PutMapping("users/{id}/role")
-    public ResponseEntity<?> updateUserRole(
-            @PathVariable("id") int id,
-            @RequestBody UserDTO userDTO
-    ){
-        User updatedUser= userService.updateUserRole(id, userDTO);
-        return ResponseEntity.ok(LabMapper.INSTANCE.getUserDTO(updatedUser));
-    }
 
 }
