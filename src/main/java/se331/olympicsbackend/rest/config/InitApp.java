@@ -107,28 +107,6 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
 
                 countryRepository.save(country);
                 System.out.println("Parsed country: " + country);
-
-                // Save the Medal information for the country
-                if (country.getMedal() == null) {  // Ensure the medal isn't duplicated
-                    Medal medal = Medal.builder()
-                            .gold_medals(countryNode.get("gold_medals").asInt())
-                            .silver_medals(countryNode.get("silver_medals").asInt())
-                            .bronze_medals(countryNode.get("bronze_medals").asInt())
-                            .total_medals(countryNode.get("total_medals").asInt())
-                            .ranking(countryNode.get("rank").asInt())
-                            .totalRank(countryNode.get("rank_total_medals").asInt())
-                            .country(country)
-
-                            .build();
-
-                    medalRepository.save(medal);
-                    country.setMedal(medal);  // Link the medal to the country
-                    countryRepository.save(country);
-                    System.out.println("Inserted new medal: " + medal);
-                } else {
-                    System.out.println("Medal already exists for country: " + country.getCountryName());
-                }
-
                 // Iterate over each sport in the country node
                 JsonNode sportsArray = countryNode.get("sports");
                 for (JsonNode sportNode : sportsArray) {
@@ -149,12 +127,37 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
 
                         sportRepository.save(sport);
                         System.out.println("Inserted new sport: " + sport);
+                        // Save the Medal information for the country
+                        if (country.getMedal() == null) {  // Ensure the medal isn't duplicated
+                            Medal medal = Medal.builder()
+                                    .gold_medals(countryNode.get("gold_medals").asInt())
+                                    .silver_medals(countryNode.get("silver_medals").asInt())
+                                    .bronze_medals(countryNode.get("bronze_medals").asInt())
+                                    .total_medals(countryNode.get("total_medals").asInt())
+                                    .ranking(countryNode.get("rank").asInt())
+                                    .totalRank(countryNode.get("rank_total_medals").asInt())
+                                    .country(country)
+                                    .sport(sport)
+                                    .build();
+
+                            medalRepository.save(medal);
+                            country.setMedal(medal);  // Link the medal to the country
+                            countryRepository.save(country);
+                            System.out.println("Inserted new medal: " + medal);
+                        } else {
+                            System.out.println("Medal already exists for country: " + country.getCountryName());
+                        }
                     } else {
                         System.out.println("Sport already exists: " + existingSport.get().getSportName());
                     }
-                }
-            }
 
+                }
+
+
+
+
+
+            }
             System.out.println("Data from API fetched and saved successfully.");
 
         } catch (JsonProcessingException e) {
