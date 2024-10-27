@@ -1,11 +1,14 @@
 package se331.olympicsbackend.rest.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import se331.olympicsbackend.rest.entity.Country;
 import se331.olympicsbackend.rest.entity.CountryDTO;
@@ -14,6 +17,7 @@ import se331.olympicsbackend.rest.service.CountryService;
 import se331.olympicsbackend.rest.util.LabMapper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -26,10 +30,17 @@ public class CountryController {
             @RequestParam(value = "_limit", required = false, defaultValue = "10") Integer perPage,
             @RequestParam(value = "_page", required = false, defaultValue = "1") Integer page
     ) {
-        List<Country> countries = countryService.getAllCountries();  // Fetch countries
+
+        perPage=perPage==null?3:perPage;
+        page=page==null?1:page;
+        Page<Country> pageOutput;
+
+        pageOutput=countryService.getCountries(perPage,page);
+
+        //List<Country> countries = countryService.getAllCountries();  // Fetch countries
 
         // Map countries to CountryDTOs, including nested sports
-        List<CountryDTO> countryDTOs = countries.stream()
+        List<CountryDTO> countryDTOs = pageOutput.stream()
                 .map(country -> {
                     CountryDTO dto = LabMapper.INSTANCE.getCountryDto(country);
                     dto.setSports(LabMapper.INSTANCE.toSportDTOs(country.getSports()));  // Set sports
@@ -41,4 +52,13 @@ public class CountryController {
 
         return new ResponseEntity<>(countryDTOs, responseHeader, HttpStatus.OK);
     }
+
+    @GetMapping("/countrydetails/{id}")
+    public ResponseEntity<CountryDTO> getCountryById(@PathVariable Long id) {
+        Optional<Country> country = Optional.ofNullable(countryService.getCountryById(id));
+        return country.map(value ->
+                        new ResponseEntity<>(LabMapper.INSTANCE.getCountryDto(value), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
 }
