@@ -29,7 +29,8 @@ public class CountryController {
     @GetMapping("/home")
     public ResponseEntity<List<CountryDTO>> getCountryLists(
             @RequestParam(value = "_limit", required = false, defaultValue = "10") Integer perPage,
-            @RequestParam(value = "_page", required = false, defaultValue = "1") Integer page
+            @RequestParam(value = "_page", required = false, defaultValue = "1") Integer page,
+            @RequestParam(value="name",required = false) String name
     ) {
 
        List<Country> countries=countryService.getAllCountries();
