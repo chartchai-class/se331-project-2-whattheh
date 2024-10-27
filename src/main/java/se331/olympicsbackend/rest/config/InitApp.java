@@ -24,8 +24,6 @@ import se331.olympicsbackend.rest.security.user.Role;
 import se331.olympicsbackend.rest.security.user.User;
 import se331.olympicsbackend.rest.security.user.UserRepository;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -150,13 +148,7 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                     } else {
                         System.out.println("Sport already exists: " + existingSport.get().getSportName());
                     }
-
                 }
-
-
-
-
-
             }
             System.out.println("Data from API fetched and saved successfully.");
 

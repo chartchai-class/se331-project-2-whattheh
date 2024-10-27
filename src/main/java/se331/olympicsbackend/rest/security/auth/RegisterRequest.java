@@ -1,4 +1,4 @@
-package se331.olympicsbackend.security.auth;
+package se331.olympicsbackend.rest.security.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
+
+
   private String username;
   private String email;
   private String password;

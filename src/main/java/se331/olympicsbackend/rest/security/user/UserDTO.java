@@ -1,4 +1,4 @@
-package se331.olympicsbackend.security.user;
+package se331.olympicsbackend.rest.security.user;
 
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
@@ -22,6 +22,6 @@ public class UserDTO {
     String password;
     Boolean enabled;
     List<String> roles=new ArrayList<>();
-
+    String newRole;
 
 }

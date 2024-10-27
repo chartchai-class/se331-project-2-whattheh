@@ -1,4 +1,4 @@
-package se331.olympicsbackend.security.config;
+package se331.olympicsbackend.rest.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
-import se331.olympicsbackend.security.config.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -32,10 +31,13 @@ public class SecurityConfiguration {
     http
             .csrf((crsf) -> crsf.disable())
             .authorizeHttpRequests((authorize) -> {
-              authorize.requestMatchers("/api/v1/auth/**")
+              authorize
+                      .requestMatchers("/home").permitAll()
+                      .requestMatchers("/api/v1/auth/**")
                       .permitAll()
-                      .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                       .requestMatchers(HttpMethod.GET,"/users/**").hasRole("ADMIN")
+                      .requestMatchers(HttpMethod.PUT,"/users/**").hasRole("ADMIN")
+                      .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                       .anyRequest().authenticated();
             })
 

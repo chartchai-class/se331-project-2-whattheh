@@ -11,8 +11,6 @@ public interface UserService {
 
     @Transactional
     User findByUsername(String username);
-
-
     Page<User> getUsers(Integer pageSize,Integer page);
-
+    User updateUserRole(Integer userId, UserDTO user);
 }
