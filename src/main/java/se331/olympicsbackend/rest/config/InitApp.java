@@ -77,7 +77,6 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
         userRepository.save(user1);
         userRepository.save(user2);
     }
-
     private void addMedalsFromApi() {
         String apiUrl = "https://cfaef2cc-2a38-4135-b81b-a179cf52e24d.mock.pstmn.io/demo";
 
@@ -93,7 +92,6 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
             JsonNode rootNode = objectMapper.readTree(response.getBody());
             JsonNode dataArray = rootNode.get("data");
 
-            // Iterate over each country node from API response
             for (JsonNode countryNode : dataArray) {
                 String countryName = countryNode.get("name").asText();
                 String flag = countryNode.get("flag_url").asText();
@@ -105,16 +103,18 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                                 .flag(flag)
                                 .build());
 
+                // Fetch and set the description from Wikipedia
+                String description = fetchDescriptionFromWikipedia(countryName);
+                country.setDescription(description);
+
                 countryRepository.save(country);
-                System.out.println("Parsed country: " + country);
-                // Iterate over each sport in the country node
+                System.out.println("Parsed country with description: " + country);
+
                 JsonNode sportsArray = countryNode.get("sports");
                 for (JsonNode sportNode : sportsArray) {
                     String sportName = sportNode.get("name").asText();
 
-                    // Check if the sport already exists for this country to prevent duplication
                     Optional<Sport> existingSport = sportRepository.findBySportNameAndCountryId(sportName, country.getId());
-
                     if (existingSport.isEmpty()) {
                         Sport sport = Sport.builder()
                                 .sportName(sportName)
@@ -127,8 +127,8 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
 
                         sportRepository.save(sport);
                         System.out.println("Inserted new sport: " + sport);
-                        // Save the Medal information for the country
-                        if (country.getMedal() == null) {  // Ensure the medal isn't duplicated
+
+                        if (country.getMedal() == null) {
                             Medal medal = Medal.builder()
                                     .gold_medals(countryNode.get("gold_medals").asInt())
                                     .silver_medals(countryNode.get("silver_medals").asInt())
@@ -141,7 +141,7 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                                     .build();
 
                             medalRepository.save(medal);
-                            country.setMedal(medal);  // Link the medal to the country
+                            country.setMedal(medal);
                             countryRepository.save(country);
                             System.out.println("Inserted new medal: " + medal);
                         } else {
@@ -150,13 +150,7 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                     } else {
                         System.out.println("Sport already exists: " + existingSport.get().getSportName());
                     }
-
                 }
-
-
-
-
-
             }
             System.out.println("Data from API fetched and saved successfully.");
 
@@ -168,5 +162,29 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
             e.printStackTrace();
         }
     }
+
+    private String fetchDescriptionFromWikipedia(String countryName) {
+        String wikiApiUrl = String.format(
+                "https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&format=json&origin=*&redirects&titles=%s",
+                countryName);
+
+        try {
+            ResponseEntity<String> response = restTemplate.getForEntity(wikiApiUrl, String.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(response.getBody());
+
+            JsonNode pagesNode = rootNode.path("query").path("pages");
+            JsonNode pageNode = pagesNode.elements().next();
+            String description = pageNode.path("extract").asText();
+
+            // Truncate description if it's too long (e.g., 5000 characters)
+            return description.length() > 5000 ? description.substring(0, 5000) : description;
+
+        } catch (Exception e) {
+            System.err.println("Error fetching description from Wikipedia for " + countryName + ": " + e.getMessage());
+            return "Description not available.";
+        }
+    }
+
 
 }

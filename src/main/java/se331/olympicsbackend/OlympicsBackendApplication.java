@@ -14,18 +14,16 @@ public class OlympicsBackendApplication {
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer(){
+    public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173")
-                        .exposedHeaders("x-total-count"); // to appear pagination registry.addMapping("/api/**")  // Allow all endpoints under /api/
-                registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:3000")  // Allow requests from your frontend
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")  // Allowed HTTP methods
+                registry.addMapping("/**")  // Allow all paths
+                        .allowedOrigins("http://localhost:5173")  // Allow requests from frontend
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // Allowed HTTP methods
                         .allowedHeaders("*")  // Allow all headers
-                        .allowCredentials(true);  // Allow cookies if needed
+                        .allowCredentials(true)  // Allow cookies/sessions
+                        .exposedHeaders("x-total-count");  // Expose headers like pagination metadata
             }
         };
     }

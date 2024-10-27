@@ -20,6 +20,9 @@ public class Country {
 
     private String flag;
     private String countryName;
+
+    @Lob  // Large Object annotation for long text
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)

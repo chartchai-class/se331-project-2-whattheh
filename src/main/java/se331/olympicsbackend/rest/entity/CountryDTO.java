@@ -19,6 +19,7 @@ import java.util.List;
 public class CountryDTO {
     private long id;
     private String flag;
+    private String description;
     private String countryName;
 
     // These fields align with Medal entity attributes.
