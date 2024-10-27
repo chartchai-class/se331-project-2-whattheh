@@ -29,8 +29,5 @@ public class CountryDTO {
     private int total_medals;
     private int ranking;
     private int totalRank;
-
     List<SportDTO> sports ;
-
-
 }
