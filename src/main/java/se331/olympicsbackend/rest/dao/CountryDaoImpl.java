@@ -27,7 +27,7 @@ public class CountryDaoImpl implements CountryDao{
     }
 
     @Override
-    public Country getCountry(Long id) {
+    public Country getCountry(Integer id) {
         return countryRepository.findById(id).orElse(null);
     }
 
