@@ -1,8 +1,5 @@
 package se331.olympicsbackend.rest.security.user;
-
-
 import org.springframework.data.domain.Page;
-
 import java.util.Optional;
 
 public interface UserDao {

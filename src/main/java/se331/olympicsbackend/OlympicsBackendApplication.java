@@ -23,6 +23,13 @@ public class OlympicsBackendApplication {
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allowing PUT
                         .allowedHeaders("*") // Allowing all headers, or specify if needed
                         .exposedHeaders("x-total-count"); // to appear pagination
+
+// to appear pagination registry.addMapping("/api/**")  // Allow all endpoints under /api/
+                registry.addMapping("/api/**")
+                        .allowedOrigins("http://localhost:3000")  // Allow requests from your frontend
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")  // Allowed HTTP methods
+                        .allowedHeaders("*")  // Allow all headers
+                        .allowCredentials(true);  // Allow cookies if needed
             }
         };
     }

@@ -5,14 +5,11 @@ import lombok.*;
 import se331.olympicsbackend.rest.security.user.User;
 
 
-import java.sql.Timestamp;
-
-
-@Data
-@Builder
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +22,5 @@ public class Comment {
     //country
     @ManyToOne
     private Country country;
+
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se331.olympicsbackend.rest.util.LabMapper;
 
-
 @Controller
 @RequiredArgsConstructor
 public class UserController {
@@ -40,6 +39,5 @@ public class UserController {
         User updatedUser= userService.updateUserRole(id, userDTO);
         return ResponseEntity.ok(LabMapper.INSTANCE.getUserDTO(updatedUser));
     }
-
 
 }
