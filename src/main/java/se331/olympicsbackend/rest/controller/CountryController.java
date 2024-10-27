@@ -63,5 +63,7 @@ public class CountryController {
     @PostMapping("/countries")
     public ResponseEntity<?> addCountry(@RequestBody Country country){
         Country output=countryService.save(country);
-        return ResponseEntity.ok(LabMapper.INSTANCE.getCountryDto(output));}
+        return ResponseEntity.ok(LabMapper.INSTANCE.getCountryDto(output));
+    }
+
 }

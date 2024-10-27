@@ -175,12 +175,16 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
 
             JsonNode pagesNode = rootNode.path("query").path("pages");
             JsonNode pageNode = pagesNode.elements().next();
-            return pageNode.path("extract").asText();
+            String description = pageNode.path("extract").asText();
+
+            // Truncate description if it's too long (e.g., 5000 characters)
+            return description.length() > 5000 ? description.substring(0, 5000) : description;
 
         } catch (Exception e) {
             System.err.println("Error fetching description from Wikipedia for " + countryName + ": " + e.getMessage());
             return "Description not available.";
         }
     }
+
 
 }
