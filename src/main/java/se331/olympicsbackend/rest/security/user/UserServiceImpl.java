@@ -1,13 +1,11 @@
-package se331.olympicsbackend.rest.security.user;
+package se331.olympicsbackend.security.user;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import org.springframework.stereotype.Service;
 
 
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
     @Autowired
     final UserDao userDao;
 
@@ -25,7 +22,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-
     @Transactional
     public User save(User user) {
         return userDao.save(user);
@@ -41,6 +37,5 @@ public class UserServiceImpl implements UserService {
     public Page<User> getUsers(Integer pageSize, Integer page) {
         return userDao.getUsers(pageSize, page);
     }
-
 
 }

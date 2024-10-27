@@ -1,4 +1,4 @@
-package se331.olympicsbackend.rest.security.auth;
+package se331.olympicsbackend.security.auth;
 
 
 
@@ -11,16 +11,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import se331.olympicsbackend.rest.security.config.JwtService;
-import se331.olympicsbackend.rest.security.token.Token;
-import se331.olympicsbackend.rest.security.token.TokenRepository;
-import se331.olympicsbackend.rest.security.token.TokenType;
-import se331.olympicsbackend.rest.security.user.Role;
-import se331.olympicsbackend.rest.security.user.User;
-import se331.olympicsbackend.rest.security.user.UserRepository;
-
-import se331.olympicsbackend.rest.util.LabMapper;
-
+import se331.olympicsbackend.security.config.JwtService;
+import se331.olympicsbackend.security.token.Token;
+import se331.olympicsbackend.security.token.TokenRepository;
+import se331.olympicsbackend.security.token.TokenType;
+import se331.olympicsbackend.security.user.Role;
+import se331.olympicsbackend.security.user.User;
+import se331.olympicsbackend.security.user.UserRepository;
+import se331.olympicsbackend.util.LabMapper;
+//import se331.olympicsbackend.util.LabMapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,7 +34,6 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public AuthenticationResponse register(RegisterRequest request) {
-    System.out.println("Registering user in register function with request: " + request);
     User user = User.builder()
             .username(request.getUsername())
             .email(request.getEmail())
@@ -43,45 +41,37 @@ public class AuthenticationService {
             .enabled(true)
             .roles(List.of(Role.ROLE_USER))
             .build();
-    System.out.println("USER: " + user);
+
     var savedUser = repository.save(user);
-    System.out.println("Saved user: " + savedUser);
     var jwtToken = jwtService.generateToken(user);
-    System.out.println("Generate JWT token: " + jwtToken);
     var refreshToken = jwtService.generateRefreshToken(user);
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
-             .accessToken(jwtToken)
+            .accessToken(jwtToken)
             .refreshToken(refreshToken)
-
             .user(LabMapper.INSTANCE.getUserDTO(user))
-
             .build();
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
-    System.out.println("Authenticating user: " + request);
     authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                     request.getUsername(),
                     request.getPassword()
             )
     );
+
     User user = repository.findByUsername(request.getUsername())
             .orElseThrow();
-    System.out.println("User found with username: " + user.getUsername());
+
     String jwtToken = jwtService.generateToken(user);
-    System.out.println("Tken generated from authenticate: " + jwtToken);
     String refreshToken = jwtService.generateRefreshToken(user);
-    System.out.println("Refresh token generated from authenticate: " + refreshToken);
 //    revokeAllUserTokens(user);
     saveUserToken(user, jwtToken);
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
-
             .user(LabMapper.INSTANCE.getUserDTO(user))
-
             .build();
   }
 

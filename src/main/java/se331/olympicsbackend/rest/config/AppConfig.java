@@ -19,7 +19,4 @@ public class AppConfig {
         factory.setReadTimeout(5000);     // 5 seconds
         return new RestTemplate(factory);
     }
-
-
-
 }

@@ -1,14 +1,15 @@
-package se331.olympicsbackend.rest.security.user;
+package se331.olympicsbackend.security.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import se331.olympicsbackend.rest.util.LabMapper;
+import se331.olympicsbackend.util.LabMapper;
 
 @Controller
 @RequiredArgsConstructor

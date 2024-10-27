@@ -1,4 +1,4 @@
-package se331.olympicsbackend.rest.security.user;
+package se331.olympicsbackend.security.user;
 
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
@@ -16,6 +16,7 @@ import java.util.List;
 
 public class UserDTO {
     Integer id;
+    String parentId;
     String username;
     String email;
     String password;

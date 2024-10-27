@@ -1,5 +1,4 @@
-package se331.olympicsbackend.rest.security.user;
-
+package se331.olympicsbackend.security.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,9 +10,9 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import se331.olympicsbackend.rest.security.token.Token;
-
+//import se331.lab_new.entity.Organizer;
+import se331.olympicsbackend.rest.security.user.Role;
+import se331.olympicsbackend.security.token.Token;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,8 +28,9 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue
   private Integer id;
+  private String parentId;
 
   @Column(unique = true)
   private String username;
@@ -80,6 +80,5 @@ public class User implements UserDetails {
   public boolean isEnabled() {
     return enabled;
   }
-
 
 }
