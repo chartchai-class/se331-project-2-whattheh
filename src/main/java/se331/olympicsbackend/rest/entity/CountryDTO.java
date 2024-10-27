@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @Builder
@@ -25,5 +27,5 @@ public class CountryDTO {
     private int total_medals;
     private int ranking;
     private int totalRank;
-
+    List<SportDTO> sports ;
 }

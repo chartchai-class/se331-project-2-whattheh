@@ -1,13 +1,11 @@
 package se331.olympicsbackend.rest.util;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import se331.olympicsbackend.rest.entity.Comment;
-import se331.olympicsbackend.rest.entity.CommentDTO;
+import se331.olympicsbackend.rest.entity.*;
 import se331.olympicsbackend.rest.security.user.User;
 import se331.olympicsbackend.rest.security.user.UserDTO;
 import org.mapstruct.Mapping;
-import se331.olympicsbackend.rest.entity.Country;
-import se331.olympicsbackend.rest.entity.CountryDTO;
+
 import java.util.List;
 
 @Mapper
@@ -31,4 +29,17 @@ public interface LabMapper {
 
     CountryDTO getCountryDto(Country country);
     List<CountryDTO> getCountryDto(List<Country> countries);
+
+    // Mapping fields between Sport and SportDTO
+    @Mapping(source = "sportName", target = "sportName")
+    @Mapping(source = "gold", target = "gold")
+    @Mapping(source = "silver", target = "silver")
+    @Mapping(source = "bronze", target = "bronze")
+    @Mapping(source = "total", target = "total")
+    // Map Sport to SportDTO
+    SportDTO toSportDTO(Sport sport);
+
+    // Map lists of countries and sports
+    List<CountryDTO> toCountryDTOs(List<Country> countries);
+    List<SportDTO> toSportDTOs(List<Sport> sports);
 }

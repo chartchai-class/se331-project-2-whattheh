@@ -34,7 +34,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Country getCountry(Long id) {
+    public Country getCountry(Integer id) {
         return countryDao.getCountry(id);
     }
 
@@ -47,4 +47,6 @@ public class CountryServiceImpl implements CountryService {
     public List<Country> getAllCountries() {
         return countryDao.getAllCountries();
     }
+
+
 }

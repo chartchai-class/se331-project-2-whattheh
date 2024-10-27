@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class CommentDTO {
     private String comment;
     private Integer userId;
-    //private Integer countryId;
+    private Integer countryId;
 }

@@ -15,6 +15,6 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
     @EntityGraph(attributePaths = {"medal"})
     List<Country> findAll();
     Optional<Country> findByCountryName(String countryName);
-    Optional<Country> findById(Long id);
+    Optional<Country> findById(Integer id);
     Page<Country> findByCountryName(String title, Pageable pageRequest);
 }

@@ -11,7 +11,7 @@ public interface CountryService {
     Integer getCountryCount();
     Page<Country> getCountries(Integer pageSize, Integer page);
     Page<Country> getCountries(String title, Pageable page);
-    Country getCountry(Long id);
+    Country getCountry(Integer id);
     Country save(Country country);
     List<Country> getAllCountries();
 }

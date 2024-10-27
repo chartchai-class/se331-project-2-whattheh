@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CountryDao {
     Integer getCountrySize();
-    Country getCountry(Long id);
+    Country getCountry(Integer id);
     Page<Country> getCountries(Integer pageSize, Integer page);
     Page<Country> getCountries(String name, Pageable page);
     Country save(Country country);

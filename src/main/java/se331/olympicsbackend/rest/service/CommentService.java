@@ -11,6 +11,5 @@ import java.util.List;
 @Service
 public interface CommentService {
     Comment save(Comment comment);
-    List<Comment> getComments(Integer userId);
-    List<Comment> findByUsernameAndCountryId(String username,Integer countryId);
+    List<Comment> getComments(Integer userId,Integer countryId);
 }

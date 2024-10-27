@@ -20,13 +20,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public List<Comment> getComments(Integer userId) {
-           return commentRepository.findByUserId(userId);
-    }
-
-
-    @Override
-    public List<Comment> findByUsernameAndCountryId(String username,Integer countryId) {
-        return commentRepository.findByUser_UsernameAndCountry_Id(username,countryId);
+    public List<Comment> getComments(Integer userId,Integer countryId) {
+        return commentRepository.findByUser_IdAndCountry_Id(userId,countryId);
     }
 }
