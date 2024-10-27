@@ -18,8 +18,8 @@ public class Sport {
     private  int id;
     private String sportName;
     private int gold;
-    private  int silver;
-    private int  bronze;
+    private int silver;
+    private int bronze;
     private int total;
 
 

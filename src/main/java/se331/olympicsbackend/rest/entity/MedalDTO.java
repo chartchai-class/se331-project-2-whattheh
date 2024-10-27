@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MedalDTO {
     @JsonProperty("gold_medals")
-    Integer gold;
+    Integer gold_medals;
     @JsonProperty("silver_medals")
     Integer silver;
     @JsonProperty("bronze_medals")
@@ -25,4 +25,9 @@ public class MedalDTO {
     Integer ranking;
     @JsonProperty("rank_total_medals")
     Integer totalRank;
+
+    @JsonProperty("name")
+    private String countryName;
+
+
 }
