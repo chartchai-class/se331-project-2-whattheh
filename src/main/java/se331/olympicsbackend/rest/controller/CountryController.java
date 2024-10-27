@@ -7,9 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import se331.olympicsbackend.rest.entity.Country;
 import se331.olympicsbackend.rest.entity.CountryDTO;
 import se331.olympicsbackend.rest.repository.CountryRepository;
@@ -61,4 +59,9 @@ public class CountryController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+
+    @PostMapping("/countries")
+    public ResponseEntity<?> addCountry(@RequestBody Country country){
+        Country output=countryService.save(country);
+        return ResponseEntity.ok(LabMapper.INSTANCE.getCountryDto(output));}
 }
