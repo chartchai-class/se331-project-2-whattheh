@@ -19,13 +19,13 @@ public class Medal {
     @EqualsAndHashCode.Exclude
     private long id ;
     @JsonProperty("gold_medals")
-    private int gold;
+    private int gold_medals;
     @JsonProperty("silver_medals")
-    private int silver;
+    private int silver_medals;
     @JsonProperty("bronze_medals")
-    private int bronze;
+    private int bronze_medals;
     @JsonProperty("total_medals")
-    private int totalMedals;
+    private int total_medals;
     @JsonProperty("rank")
     private int ranking;
     @JsonProperty("rank_total_medals")

@@ -19,11 +19,11 @@ public class CountryDTO {
     private String countryName;
 
     // These fields align with Medal entity attributes.
-    private int gold;
-    private int silver;
-    private int bronze;
-    private int totalMedals;
-    private int rank;
+    private int gold_medals;
+    private int silver_medals;
+    private int bronze_medals;
+    private int total_medals;
+    private int ranking;
     private int totalRank;
 
 }

@@ -15,11 +15,11 @@ public interface LabMapper {
     LabMapper INSTANCE = Mappers.getMapper(LabMapper.class);
 
     // Adjusted mappings for proper field names
-    @Mapping(source = "medal.gold", target = "gold")
-    @Mapping(source = "medal.silver", target = "silver")
-    @Mapping(source = "medal.bronze", target = "bronze")
-    @Mapping(source = "medal.totalMedals", target = "totalMedals")
-    @Mapping(source = "medal.ranking", target = "rank")
+    @Mapping(source = "medal.gold_medals", target = "gold_medals")
+    @Mapping(source = "medal.silver_medals", target = "silver_medals")
+    @Mapping(source = "medal.bronze_medals", target = "bronze_medals")
+    @Mapping(source = "medal.total_medals", target = "total_medals")
+    @Mapping(source = "medal.ranking", target = "ranking")
     @Mapping(source = "medal.totalRank", target = "totalRank")
     CountryDTO getCountryDto(Country country);
 

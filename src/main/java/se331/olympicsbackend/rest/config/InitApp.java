@@ -111,10 +111,10 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                 // Save the Medal information for the country
                 if (country.getMedal() == null) {  // Ensure the medal isn't duplicated
                     Medal medal = Medal.builder()
-                            .gold(countryNode.get("gold_medals").asInt())
-                            .silver(countryNode.get("silver_medals").asInt())
-                            .bronze(countryNode.get("bronze_medals").asInt())
-                            .totalMedals(countryNode.get("total_medals").asInt())
+                            .gold_medals(countryNode.get("gold_medals").asInt())
+                            .silver_medals(countryNode.get("silver_medals").asInt())
+                            .bronze_medals(countryNode.get("bronze_medals").asInt())
+                            .total_medals(countryNode.get("total_medals").asInt())
                             .ranking(countryNode.get("rank").asInt())
                             .totalRank(countryNode.get("rank_total_medals").asInt())
                             .country(country)
