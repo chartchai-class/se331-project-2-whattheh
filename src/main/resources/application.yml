@@ -14,7 +14,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
   servlet:
     multipart:
       max-file-size: 10MB
@@ -25,3 +25,16 @@ application:
       expiration: 86400000 # 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
+
+openai:
+  api:
+    key: sk-GGI6cvtx0xlZsD1OsgGXR54xGr1Zmxz0nZeaCKOQzPT3BlbkFJ4BIOox7_HulrhArHsJNPBMz6c22AIiMcp4t8ruBUsA
+
+server:
+  port: 8080  # Change this if needed
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG  # Debug logging for web requests
+
