@@ -22,5 +22,5 @@ public class SportDTO {
     @JsonProperty("bronze")
     private int  bronze;
     @JsonProperty("total")
-    private int totals;
+    private int total;
 }
