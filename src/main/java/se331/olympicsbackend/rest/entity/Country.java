@@ -17,6 +17,9 @@ public class Country {
     private String countryName;
     private String description;
 
+//    @ElementCollection
+//    List<String> flag;
+
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sport> sports = new ArrayList<>();
 
