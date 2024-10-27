@@ -23,7 +23,33 @@ import java.util.stream.Collectors;
 public class CountryController {
     final CountryService countryService;
 
+
     @GetMapping("/home")
+    public ResponseEntity<List<CountryDTO>> getCountryListsHome(
+            @RequestParam(value = "_limit", required = false, defaultValue = "10") Integer perPage,
+            @RequestParam(value = "_page", required = false, defaultValue = "1") Integer page,
+            @RequestParam(value="name",required = false) String name
+    ) {
+        List<Country> countries = countryService.getAllCountries();  // Get list of countries
+
+        //List<Country> countries = countryService.getAllCountries();  // Fetch countries
+
+        // Map countries to CountryDTOs, including nested sports
+        List<CountryDTO> countryDTOs = countries.stream()
+                .map(country -> {
+                    CountryDTO dto = LabMapper.INSTANCE.getCountryDto(country);
+                    dto.setSports(LabMapper.INSTANCE.toSportDTOs(country.getSports()));  // Set sports
+                    return dto;
+                }).collect(Collectors.toList());
+
+        HttpHeaders responseHeader = new HttpHeaders();
+        responseHeader.set("x-total-count", String.valueOf(countryDTOs.size()));
+
+        return new ResponseEntity<>(countryDTOs, responseHeader, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/")
     public ResponseEntity<List<CountryDTO>> getCountryLists(
             @RequestParam(value = "_limit", required = false, defaultValue = "10") Integer perPage,
             @RequestParam(value = "_page", required = false, defaultValue = "1") Integer page,

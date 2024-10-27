@@ -6,10 +6,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class UserDaoImpl implements UserDao {
     final UserRepository userRepository;
+
+    @Override
+
+    public Optional<User> findById(Integer userId) {
+
+        return userRepository.findById(userId);
+
+    }
 
     @Override
     public User findByUsername(String username) {
