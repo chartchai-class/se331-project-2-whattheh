@@ -1,18 +1,6 @@
 # Olympic 2024 report (Combo-based  Project)
 
-Please ```npm i ``` after you clone the project. 
-
-Then ```npm run dev ```
-
-Before commit, please ``` npm run format ``` to be standardize our code base. 
-
-Please pull request to the branch ``` testing ``` .
-
-After PR , please remind to project maintainer in MSTeams. 
-
-Thank you for your contribution, Mate!!
-
-Have a fun coding day!!!🤩
+Backend API with springboot 
 
 ## Project Maintainers 
 
